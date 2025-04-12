@@ -1,0 +1,67 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+
+version: 2
+
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+    # You may remove this if you don't need go generate
+    - go generate ./...
+
+builds:
+  # Build for Linux
+  - id: "PoGoPass-linux"
+    main: ./cmd/PoGoPass
+    goos:
+      - linux
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+
+  # Build for Windows
+  - id: "PoGoPass-windows"
+    main: ./cmd/PoGoPass
+    goos:
+      - windows
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+
+  # Build for MacOS
+  - id: "PoGoPass-darwin"
+    main: ./cmd/PoGoPass
+    goos:
+      - darwin
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+
+archives:
+  - formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+release:
+  footer: >-
+    ---
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).

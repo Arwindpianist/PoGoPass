@@ -1,0 +1,26 @@
+# Binaries
+PoGoPass
+
+# Database and master key hash
+pogo.db
+masterkey.hash
+
+# Environment variables
+.env
+
+# Go build files
+*.exe
+*.test
+*.out
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+# Added by goreleaser init:
+dist/
